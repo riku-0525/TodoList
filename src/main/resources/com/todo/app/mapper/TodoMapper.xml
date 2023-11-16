@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- TodoMapperインターフェースと紐づけ -->
+<mapper namespace="com.todo.app.mapper.TodoMapper">
+
+<!-- id=インターフェースのメソッド -->
+<select id="selectAll" resultType="com.todo.app.entity.Todo">
+select * from todo
+</select>
+
+<!-- 上記同様 -->
+<insert id="add" parameterType="com.todo.app.entity.Todo">
+insert into todo(title,time_limit,remarks) 
+values(#{title},to_date(#{time_limit},'yy-mm-dd'),#{remarks})
+</insert>
+
+<update id="update" parameterType="com.todo.app.entity.Todo">
+update todo set
+ title=#{title},time_limit=to_date(#{time_limit},'yy-mm-dd'),remarks=#{remarks},
+ done_flg=#{done_flg}
+<!--idで識別  -->
+ where id=#{id}
+</update>
+
+<select id="selectIncomplete" resultType="com.todo.app.entity.Todo">
+<!-- チェックなし -->
+select * from todo where done_flg=0
+</select>
+
+<select id="selectComplete" resultType="com.todo.app.entity.Todo">
+<!-- チェックあり -->
+select * from todo where done_flg=1
+</select>
+
+<delete id="delete" parameterType="com.todo.app.entity.Todo">
+delete from todo where done_flg=1
+</delete>
+</mapper>

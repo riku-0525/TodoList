@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>TodoApp</title>
+</head>
+<body>
+	<h1 style="background-color: aqua;">TodoList</h1>
+	<h2>残りのタスク(完了時はチェックしてボタン押下）</h2>
+	<form method="post" th:action="@{/update}" th:each="todo : ${todos}"><!--ループth:each-->
+		<input type="checkbox" name="done_flg" value="1"/>
+		<!--id取得,隠す-->
+		<input type="hidden" name="id" th:value="${todo.id}"/>
+		<input type="text" name="title" th:value="${todo.title}"/>
+		<input type="date" name="time_limit" th:value="${todo.time_limit}"/>
+		<input type="text" name="remarks" placeholder="備考" th:value="${todo.remarks}"/>
+		<input type="submit" value="更新・完了"/>
+	</form>
+	
+	<h3><font color = "red">完了済み(チェックしてボタン押下)</font></h3>
+	<form method="post" th:each="todo : ${donetodos}"><!--ループth:each-->
+		<input type="checkbox" name="done_flg" value="1"/>
+		<!--id取得,隠す-->
+		<input type="hidden" name="id" th:value="${todo.id}"/>
+		<input type="text" name="title" th:value="${todo.title}"/>
+		<input type="date" name="time_limit" th:value="${todo.time_limit}"/>
+		<input type="text" name="remarks" placeholder="備考" th:value="${todo.remarks}"/>
+		
+		<!--formactionで分岐できる?-->
+		<input type="submit" formaction="/update" value="更新"/>
+		<input type="submit" formaction="/delete" value="削除"/>
+	</form>
+	
+	</form>
+	
+	
+	<h3>タスクを追加</h3>
+	<form method="post" th:action="@{/add}">
+		<input type="text" name="title"/>
+		<input type="date" name="time_limit"/>
+		<!--submitでコントローラーadd実行-->
+		<input type="submit" value="追加"/>
+	</form>
+	
+	<form method="post" th:action="@{/delete}">
+		<input type="submit" value="完了済みをすべて削除"/>
+	</form>
+</body>
+</html>
